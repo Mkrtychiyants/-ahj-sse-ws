@@ -37,9 +37,23 @@ export default class Chat {
     const loginForm1 = document.querySelector('form.modal__form');
     loginForm1.addEventListener('submit', (e) => {
       e.preventDefault();
-      const api = new ChatAPI('http://localhost:3000');
-      const response = api.create('name');
-      const result = response.text()
+      // const api = new ChatAPI('http://localhost:3000');
+      // const response = api.create('name');
+      // const result = response.text()
+      (async() => {
+        const resp = await fetch('http://localhost:3000/new-user',
+        {
+          method: 'POST',
+          headers: {
+             'Content-Type': 'application/json'
+              },
+          body: {
+              name: 'имя из инпута'
+            }
+          }
+        )
+        const result = await resp.json();
+      })();
 
      })
   }
