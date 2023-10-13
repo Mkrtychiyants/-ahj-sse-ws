@@ -13,7 +13,7 @@
   flex-direction: column;
   box-sizing: border-box;
   background-color: white;
-  top: calc(50% + 275px);
+  top: calc(50% + 800px);
   left: calc(50% - 250px);
   width: 500px;
   border-radius: 5px;
@@ -22,7 +22,19 @@
   transform: translateY(-100vh);
   z-index: 20;
 }
-
+.modal__content.hidden {
+  display: none;
+}
+.error {
+  display: block;
+  transition: all 0.3s ease-out;
+  transform: translateY(0);
+}
+.error.hidden {
+  display: none;
+  transform: translateY(-100vh);
+  
+}
 .modal__header {
   text-align: center;
   background-color: #dee2e1;
@@ -44,7 +56,8 @@
   margin-bottom: 5px;
 }
 
-.form__input {
+.form__input, 
+.message__input {
   display: block;
   font-family: 'Roboto', sans-serif;
   box-sizing: border-box;

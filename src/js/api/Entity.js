@@ -1,12 +1,5 @@
 export default class Entity {
 
-  constructor() {
-    this.URL = "";
-}
-  
-
-  list() {}
-
   get() {
     return {
       url:this.URL,
@@ -21,12 +14,20 @@ export default class Entity {
       headers: {
         'Content-Type': 'application/json'
       },
-      mode: 'cors',
-      body: JSON.stringify({}),
+      body: JSON.stringify({name})
     };
   }
 
-  update() {}
+  update(id) {
+    return {
+      url: `${this.URL}/${id}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({name})
+    };
+  }
 
   delete(id) {
     return {
