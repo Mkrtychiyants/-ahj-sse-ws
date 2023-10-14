@@ -8,7 +8,13 @@ h1 {
   margin: 0;
   padding: 0;
 }
-
+.chat__close{
+  display: inline;
+  width: 55px;
+  height: 30px;
+  position: absolute;
+  right: 0;
+}
 /* div{
   display: flex;
 } */
@@ -70,7 +76,7 @@ h1 {
   flex: 0 0 70%;
   display: flex;
   flex-direction: column;
-
+  position: relative;
 }
 
 .chat__messages-container {

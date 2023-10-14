@@ -1,4 +1,4 @@
-import ChatAPI from "./api/ChatAPI";
+import ChatAPI from './api/ChatAPI';
 
 export default class Chat {
   constructor(container) {
@@ -12,20 +12,21 @@ export default class Chat {
 
   init() {
     this.registerEvents();
-    this.subscribeOnEvents();
     this.showLoginForm();
   }
+
   loginSubmit() {
     const loginForm = document.querySelector('form.modal__content');
-    loginForm.addEventListener('submit', this.showChatForm)
-    loginForm.addEventListener('submit', this.onLoginChatHandler.bind(this))
+    loginForm.addEventListener('submit', this.showChatForm);
+    loginForm.addEventListener('submit', this.onLoginChatHandler.bind(this));
   }
+
   drawChatHandler(evt) {
-    this.onEnterChatHandler(JSON.parse(evt.data))
-  };
+    this.onEnterChatHandler(JSON.parse(evt.data));
+  }
+
   showLoginForm() {
     function createLoginForm() {
-
       const div = document.createElement('div');
 
       const formString = `<form class="modal__content" novalidate>
@@ -48,14 +49,14 @@ export default class Chat {
 
       div.innerHTML = formString.trim();
 
-      return div.firstChild
+      return div.firstChild;
     }
 
-    this.bindToDOM(createLoginForm())
+    this.bindToDOM(createLoginForm());
     this.loginSubmit();
   }
-  showChatForm() {
 
+  showChatForm() {
     function createChatForm() {
       const div = document.createElement('div');
 
@@ -66,7 +67,8 @@ export default class Chat {
            
           </div>
         </div>
-        <div class="  chat__area">
+        <div class = "chat__area">
+        <button class ="chat__close" type="reset">Close</button>
           <div class=" chat__messages-container">
             <div class="message__container message__container-interlocutor">
     
@@ -86,12 +88,12 @@ export default class Chat {
       </div>
       </div>`;
       div.innerHTML = formString.trim();
-      return div.firstChild
+      return div.firstChild;
     }
 
-    this.bindToDOM(createChatForm())
-
+    this.bindToDOM(createChatForm());
   }
+
   renderChat(chatData) {
     this.usersId = [];
     function camposeDate(timestamp) {
@@ -111,7 +113,7 @@ export default class Chat {
     }
     function deletePreviosChat(parent) {
       while (parent.firstChild) {
-        parent.firstChild.remove()
+        parent.firstChild.remove();
       }
     }
     const chatMembers = document.querySelector('div.chat__connect');
@@ -119,14 +121,12 @@ export default class Chat {
     const messageHost = document.querySelector('div.message__container-yourself');
     const div = document.createElement('div');
 
-
     if (Array.isArray(chatData)) {
       deletePreviosChat(chatMembers);
       deletePreviosChat(messageInt);
       deletePreviosChat(messageHost);
 
-      chatData.forEach(element => {
-
+      chatData.forEach((element) => {
         if (!this.usersId.includes(element.id)) {
           if (element.host) {
             const formString = `<div class="chat__user message__container-host">
@@ -140,12 +140,11 @@ export default class Chat {
             div.innerHTML = formString.trim();
           }
           this.usersId.push(element.id);
-          chatMembers.appendChild(div.firstChild)
+          chatMembers.appendChild(div.firstChild);
         }
-
       });
-      chatData.forEach(element => {
-        const div = document.createElement('div');
+      chatData.forEach((element) => {
+        // const div = document.createElement('div');
         if (element.message) {
           if (element.host) {
             const formString = `<div class="message">
@@ -159,9 +158,9 @@ export default class Chat {
                 <div class="messageText">
                   ${element.message}
                 </div>
-              </div>`
+              </div>`;
             div.innerHTML = formString.trim();
-            messageHost.appendChild(div.firstChild)
+            messageHost.appendChild(div.firstChild);
           } else {
             const formString = `<div class="message">
           <div class="message__header">
@@ -174,34 +173,32 @@ export default class Chat {
           <div class="messageText">
             ${element.message}
           </div>
-        </div>`
+        </div>`;
             div.innerHTML = formString.trim();
-            messageInt.appendChild(div.firstChild)
+            messageInt.appendChild(div.firstChild);
           }
         }
       });
-    } else {
-      if (typeof chatData === "object") {
-
-        const div = document.createElement('div');
-        if (!this.usersId.includes(chatData.id)) {
-          if (chatData.host) {
-            const formString = `<div class="chat__user message__container-host
+    } else if (typeof chatData === 'object') {
+      // const div = document.createElement('div');
+      if (!this.usersId.includes(chatData.id)) {
+        if (chatData.host) {
+          const formString = `<div class="chat__user message__container-host
           ">
           ${chatData.name}
         </div>`;
-            div.innerHTML = formString.trim();
-          } else {
-            const formString = `<div class="chat__user">
+          div.innerHTML = formString.trim();
+        } else {
+          const formString = `<div class="chat__user">
           ${chatData.name}
         </div>`;
-            div.innerHTML = formString.trim();
-          }
+          div.innerHTML = formString.trim();
         }
-        if (chatData.message) {
-          const div = document.createElement('div');
-          if (chatData.host) {
-            const formString = `<div class="message">
+      }
+      if (chatData.message) {
+        // const div = document.createElement('div');
+        if (chatData.host) {
+          const formString = `<div class="message">
                   <div class="message__header message__container-yourself ">
                   <span class="messageAuthor"> ${chatData.name}, </span>
                   <span class="messageDate">
@@ -212,11 +209,11 @@ export default class Chat {
                   <div class="messageText">
                     ${chatData.message}
                   </div>
-                </div>`
-            div.innerHTML = formString.trim();
-            messageHost.appendChild(div.firstChild)
-          } else {
-            const formString = `<div class="message">
+                </div>`;
+          div.innerHTML = formString.trim();
+          messageHost.appendChild(div.firstChild);
+        } else {
+          const formString = `<div class="message">
             <div class="message__header">
             <span class="messageAuthor"> ${chatData.name}, </span>
             <span class="messageDate">
@@ -227,20 +224,18 @@ export default class Chat {
             <div class="messageText">
               ${chatData.message}
             </div>
-          </div>`
-            div.innerHTML = formString.trim();
-            messageInt.appendChild(div.firstChild)
-          }
+          </div>`;
+          div.innerHTML = formString.trim();
+          messageInt.appendChild(div.firstChild);
         }
-
       }
     }
-
   }
+
   onEnterChatHandler(chatData) {
     const loginForm = document.querySelector('form.modal__content');
     const chatForm = document.querySelector('div.container');
-    this.renderChat(chatData)
+    this.renderChat(chatData);
     loginForm.classList.add('hidden');
     chatForm.classList.remove('hidden');
 
@@ -249,7 +244,11 @@ export default class Chat {
     messageForm.addEventListener('submit', this.sendMessage);
 
     this.ws.removeEventListener('message', this.drawChatHandler);
+    const closeForm = document.querySelector('button.chat__close');
+
+    closeForm.addEventListener('click', this.exitChat);
   }
+
   onLoginChatHandler(e) {
     e.preventDefault();
     const loginInput = document.querySelector('input.form__input');
@@ -260,20 +259,20 @@ export default class Chat {
     };
     loginAttempt()
       .then((response) => {
-        if (response.status === "error") {
+        if (response.status === 'error') {
           const loginError = document.querySelector('div.error');
           const errorHint = document.querySelector('div.form__hint');
           loginError.classList.remove('hidden');
           errorHint.textContent = response.message;
         }
-        if (response.status === "ok") {
+        if (response.status === 'ok') {
           this.host = response.user;
           this.ws = new WebSocket('ws://localhost:3000/ws');
           this.ws.addEventListener('message', this.drawChatHandler);
         }
       })
-      .catch((e) => {
-        console.error("Произошла ошибка: ", e);
+      .catch((err) => {
+        console.error('Произошла ошибка: ', err);
       });
   }
 
@@ -287,21 +286,38 @@ export default class Chat {
       host: true,
       message: messageInput.value,
       created: new Date(Date.now()),
-      type: "send",
+      type: 'send',
     };
     this.ws.send(JSON.stringify(msg));
     this.ws.addEventListener('message', (evt) => {
-      this.renderChat((JSON.parse(evt.data)))
+      this.renderChat((JSON.parse(evt.data)));
     });
-    messageInput.value = "";
+    messageInput.value = '';
+  }
 
+  exitChat(e) {
+    e.preventDefault();
+    const messageForm = document.querySelector('form.form__group');
+    const msg = {
+      id: this.host.id,
+      name: this.host.name,
+      host: true,
+      message: '',
+      created: new Date(Date.now()),
+      type: 'exit',
+    };
+    this.ws.send(JSON.stringify(msg));
+    this.ws.addEventListener('message', (evt) => {
+      this.renderChat((JSON.parse(evt.data)));
+    });
+    messageForm.reset();
+    this.ws.close();
   }
 
   messageSubmit() {
     const messageForm = document.querySelector('form.form__group');
 
-    messageForm.addEventListener('submit', (e) => { this.sendMessage })
-
+    messageForm.addEventListener('submit', this.sendMessage);
   }
 
   bindToDOM(element) {
@@ -315,7 +331,6 @@ export default class Chat {
     this.onEnterChatHandler = this.onEnterChatHandler.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.drawChatHandler = this.drawChatHandler.bind(this);
+    this.exitChat = this.exitChat.bind(this);
   }
-
 }
-
